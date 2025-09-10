@@ -1,0 +1,95 @@
+.home-root {
+  font-family: 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
+  color: #222;
+  background: #fff;
+  min-height: 100vh;
+}
+
+.home-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 24px 32px 0 32px;
+  font-size: 16px;
+}
+
+.logo {
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.home-nav {
+  display: flex;
+  gap: 32px;
+  color: #aaa;
+  font-size: 14px;
+}
+
+.home-main {
+  margin-top: 32px;
+  display: flex;
+  justify-content: center;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 40px;
+  width: 900px;
+  height: 700px;
+}
+
+.feature {
+  background: #f7f7f7;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  padding: 40px;
+  min-height: 300px;
+  box-sizing: border-box;
+}
+
+.feature-large {
+  flex-direction: row;
+}
+
+.feature-small {
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.feature h2 {
+  font-size: 28px;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+.feature p {
+  color: #aaa;
+  font-size: 18px;
+  margin: 0;
+}
+
+.icon {
+  width: 80px;
+  height: 80px;
+  margin-right: 32px;
+  background: #ededed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon.square {
+  border-radius: 16px;
+}
+
+.icon.circle {
+  border-radius: 50%;
+}
+
+.icon.triangle {
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  background: #ededed;
+}
