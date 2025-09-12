@@ -1,25 +1,8 @@
 import { Connection, PublicKey, clusterApiUrl, Transaction, SystemProgram } from '@solana/web3.js';
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
-import { WalletProvider } from '@solana/wallet-adapter-react';
-import { PhantomWalletAdapter, SolflareWalletAdapter, LedgerWalletAdapter } from '@solana/wallet-adapter-wallets';
-
 const network = WalletAdapterNetwork.Devnet;
 const endpoint = clusterApiUrl(network);
 const connection = new Connection(endpoint, 'confirmed');
-
-export const getWalletProvider = (children: React.ReactNode) => {
-  const wallets = [
-    new PhantomWalletAdapter(),
-    new SolflareWalletAdapter(),
-    new LedgerWalletAdapter(),
-  ];
-
-  return (
-    <WalletProvider wallets={wallets} autoConnect>
-      {children}
-    </WalletProvider>
-  );
-};
 
 export const transferSOL = async (
   sender: PublicKey,
@@ -42,5 +25,3 @@ export const transferSOL = async (
     throw new Error(`Transaction failed: ${error.message}`);
   }
 };
-
-// Additional functions for SPL token transfers can be added here.
