@@ -5,6 +5,8 @@ import style from './index.module.scss';
 import { useState } from "react";
 import { Keypair, PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
 import bs58 from 'bs58';
+import SplToken from "./SplToken";
+import TransferSplToken from "./TransferSplToken";
 
 export const ConnectWallet = () => {
   const walletInfo = useWallet();
@@ -33,24 +35,25 @@ export const ConnectWallet = () => {
       alert("Please input valid to account address");
       return;
     }
-    if (!values.pol || values.pol <= 0) {
+    if (!values.sol || values.sol <= 0) {
       alert("Please input valid pol number");
       return;
     }
     try {
       const toPubkey = values.account;
-      const lamports = values.pol * 1e9; // 1 SOL = 10^9 lamports
+      const lamports = values.sol * 1e9; // 1 SOL = 10^9 lamports
 
       const transaction = new Transaction().add(
         SystemProgram.transfer({
           fromPubkey: publicKey,
           toPubkey: toPubkey,
-          lamports: 0.01 * 1e9, // 0.01 SOL
+          lamports: lamports,
         })
       );
       const signature = await sendTransaction(transaction, connection);
-      await connection.confirmTransaction(signature, "confirmed");
-      setTransferRes("Transfer successful");
+      setTransferRes("send Transfer");
+      const res = await connection.confirmTransaction(signature, "confirmed");
+      setTransferRes("Transfer successful: " + JSON.stringify(res, null, 2));
     } catch (error) {
       console.error("Transfer failed", error);
       setTransferRes("Transfer failed: " + (error instanceof Error ? error.message : String(error)));
@@ -94,7 +97,11 @@ export const ConnectWallet = () => {
       labelCol={{ span: 8 }}
       wrapperCol={{ span: 16 }}
       style={{ maxWidth: 600 }}
-      initialValues={{ remember: true }}
+      initialValues={{ 
+        remember: true,
+        account: 'FnR7tPsptwPG7X2GTh6LFTuMktyTMQVzTPUgunBBoQwY',
+        sol: 0.01
+      }}
       onFinish={submitTransfer}
       autoComplete="off"
     >
@@ -108,10 +115,10 @@ export const ConnectWallet = () => {
       </Form.Item>
 
       <Form.Item
-        label="POL"
-        name="pol"
+        label="SOL"
+        name="sol"
         validateFirst
-        rules={[{ required: true, message: 'Please input pol nunber' }]}
+        rules={[{ required: true, message: 'Please input sol nunber' }]}
       >
         <InputNumber maxLength={10} step="0.01"/>
       </Form.Item>
@@ -126,5 +133,14 @@ export const ConnectWallet = () => {
     <div className={style.detail}>
       <Input.TextArea readOnly rows={6} value={transferRes} />
     </div>
+
+    <Divider style={{ borderColor: '#7cb305' }}>create Spl token</Divider>
+    
+    <SplToken/>
+
+    <Divider style={{ borderColor: '#7cb305' }}>transfer Spl token</Divider>
+    
+    <TransferSplToken/>
+
   </>;
 }
