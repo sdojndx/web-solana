@@ -3,7 +3,7 @@ import { createMint, getOrCreateAssociatedTokenAccount, mintTo } from "@solana/s
 import React from "react";
 import style from './index.module.scss';
 import bs58 from 'bs58';
-import { Input, Button, Form } from "antd";
+import { Input, Button, Form, InputNumber } from "antd";
 
 const SplToken = () => {
   const [getMintTokenRes, setGetMintTokenRes] = React.useState<string>("");
@@ -40,7 +40,7 @@ const SplToken = () => {
         mint,                     // mint
         fromTokenAccount.address, // destination
         fromWallet,               // authority
-        9000000000                // amount (in smallest unit, so this is 1 token with 9 decimals)
+        values.splNumber * 1e9    // amount (in smallest unit, so this is 1 token with 9 decimals)
       );
       setGetMintTokenRes("Minting Signature:" + signature + "\n Minting successful. Mint Address: " + mint.toBase58());
     } catch (err) {
@@ -72,7 +72,14 @@ const SplToken = () => {
         >
           <Input.TextArea maxLength={150} rows={2}/>
         </Form.Item>
-
+        <Form.Item
+          label="SPL Number"
+          name="splNumber"
+          validateFirst
+          rules={[{ required: true, message: 'Please input splNumber' }]}
+        >
+          <InputNumber maxLength={10} step="0.01"/>
+        </Form.Item>
         <Form.Item label={null}>
           <Button type="primary" htmlType="submit">
             Submit
